@@ -22,16 +22,35 @@ repositories {
 extra["springCloudVersion"] = "2023.0.2"
 
 dependencies {
+	// ULID
+	implementation("com.github.f4b6a3:ulid-creator:5.2.1")
+	// JPA
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
-	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	runtimeOnly("org.postgresql:postgresql")
+	// MVC
+	implementation("org.springframework.boot:spring-boot-starter-web")
+	// Jackson
+	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+	// Kotlin
+	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	// Feign
+	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+allOpen {
+	annotation("jakarta.persistence.Entity")
+	annotation("jakarta.persistence.Embeddable")
+	annotation("jakarta.persistence.MappedSuperclass")
+}
+
+noArg {
+	annotation("jakarta.persistence.Entity")
+	annotation("jakarta.persistence.Embeddable")
+	annotation("jakarta.persistence.MappedSuperclass")
 }
 
 dependencyManagement {
