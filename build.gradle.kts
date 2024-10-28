@@ -1,70 +1,71 @@
-plugins {
-	id("org.springframework.boot") version "3.2.6"
-	id("io.spring.dependency-management") version "1.1.5"
-	kotlin("plugin.jpa") version "1.9.24"
-	kotlin("jvm") version "1.9.24"
-	kotlin("plugin.spring") version "1.9.24"
-}
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-group = "com.commitAttack"
-version = "0.0.1-SNAPSHOT"
+plugins {
+	id("org.springframework.boot") version "3.2.3"
+	id("io.spring.dependency-management") version "1.1.4"
+	kotlin("jvm") version "1.9.22"
+	kotlin("plugin.spring") version "1.9.22"
+	kotlin("plugin.jpa") version "1.9.22"
+}
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+	sourceCompatibility = JavaVersion.VERSION_17
+}
+
+allprojects {
+	repositories {
+		mavenCentral()
+		maven { url = uri("https://repo.spring.io/milestone") }
+		maven { url = uri("https://repo.spring.io/snapshot") }
+		maven {
+			url = uri("https://maven.pkg.github.com/Commit-Attack/CA-Be-Library")
+			credentials {
+				username = project.findProperty("GITHUB_USER") as String? ?: System.getenv("GITHUB_USER")
+				password = project.findProperty("GITHUB_TOKEN") as String? ?: System.getenv("GITHUB_TOKEN")
+			}
+		}
 	}
 }
 
-repositories {
-	mavenCentral()
-}
+subprojects {
+	apply {
+		plugin("kotlin")
+		plugin("org.jetbrains.kotlin.jvm")
+		plugin("org.springframework.boot")
+		plugin("io.spring.dependency-management")
+		plugin("org.jetbrains.kotlin.plugin.allopen")
+		plugin("org.jetbrains.kotlin.plugin.noarg")
+		plugin("org.jetbrains.kotlin.plugin.spring")
+		apply(plugin = "kotlin-kapt")
+	}
+	dependencyManagement {
+		imports {
+			mavenBom("org.springframework.cloud:spring-cloud-dependencies:2023.0.0")
+			mavenBom("io.awspring.cloud:spring-cloud-aws:3.1.0")
+		}
+	}
 
-extra["springCloudVersion"] = "2023.0.2"
-
-dependencies {
-	// ULID
-	implementation("com.github.f4b6a3:ulid-creator:5.2.1")
-	// JPA
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-	runtimeOnly("org.postgresql:postgresql")
-	// MVC
-	implementation("org.springframework.boot:spring-boot-starter-web")
-	// Jackson
-	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	// Kotlin
-	implementation("org.jetbrains.kotlin:kotlin-reflect")
-	// Feign
-	implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
-
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
-	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-}
-
-allOpen {
-	annotation("jakarta.persistence.Entity")
-	annotation("jakarta.persistence.Embeddable")
-	annotation("jakarta.persistence.MappedSuperclass")
-}
-
-noArg {
-	annotation("jakarta.persistence.Entity")
-	annotation("jakarta.persistence.Embeddable")
-	annotation("jakarta.persistence.MappedSuperclass")
-}
-
-dependencyManagement {
-	imports {
-		mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
+	// Test Dependencies(Note: test does not allow api type dependencies)
+	dependencies {
+		testImplementation("org.springframework.boot:spring-boot-starter-test")
+		testImplementation("org.springframework.boot:spring-boot-testcontainers")
+		testImplementation("org.springframework.security:spring-security-test")
+		testImplementation("org.testcontainers:junit-jupiter")
+		testImplementation("org.testcontainers:postgresql")
+		testImplementation("org.testcontainers:localstack")
+		testImplementation("org.testcontainers:elasticsearch")
+		testImplementation("io.kotest:kotest-assertions-core:5.8.0")
+		testImplementation("io.kotest:kotest-runner-junit5:5.8.0")
+		testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
+		testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:2.0.2")
+		testImplementation("io.mockk:mockk:1.13.10")
+		testImplementation("org.springframework.cloud:spring-cloud-starter-contract-stub-runner:4.1.1")
 	}
 }
 
-kotlin {
-	compilerOptions {
-		freeCompilerArgs.addAll("-Xjsr305=strict")
+tasks.withType<KotlinCompile> {
+	kotlinOptions {
+		freeCompilerArgs += "-Xjsr305=strict"
+		jvmTarget = "17"
 	}
-}
-
-tasks.withType<Test> {
-	useJUnitPlatform()
 }
