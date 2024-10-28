@@ -1,0 +1,35 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/commitAttack
+    username: admin
+    password: testPassword@
+    hikari:
+      maximum-pool-size: 24
+      minimum-idle: 5
+
+logging:
+  level:
+    com:
+      commitAttack: DEBUG
+    org:
+      springframework: DEBUG
+      hibernate:
+        orm:
+          jdbc:
+            bind: trace
+spring-doc:
+  swagger-ui:
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true
+    display-request-duration: true
+  packagesToScan: com.commitAttack.be
+  api-docs:
+    path: /api-docs
+    resolve-schema-properties: true
+    version: openapi_3_1
+  show-actuator: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
