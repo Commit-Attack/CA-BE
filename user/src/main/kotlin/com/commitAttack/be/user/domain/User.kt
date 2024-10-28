@@ -10,10 +10,15 @@ import org.hibernate.annotations.SQLDelete
 @SQLDelete(sql = "UPDATE public.\"Users\" SET \"deletedAt\" = current_timestamp WHERE \"id\" = ?")
 @Table(name = "\"Users\"", schema = "public")
 class User(
+    githubId: String,
     name: String,
     profileImageUrl: String?,
-    initialCommitCount: Int,
+    initialCommitCount: Int? = 0,
 ) : BaseEntity() {
+
+    @Column(name = "\"githubId\"", nullable = false)
+    var githubId: String = githubId
+        protected set
 
     @Column(name = "\"name\"", nullable = false)
     var name: String = name
@@ -23,7 +28,7 @@ class User(
     var profileImageUrl: String? = profileImageUrl
         protected set
 
-    @Column(name = "\"initialCommitCount\"", nullable = false)
-    var initialCommitCount: Int = initialCommitCount
+    @Column(name = "\"initialCommitCount\"", nullable = true)
+    var initialCommitCount: Int? = initialCommitCount
         protected set
 }
