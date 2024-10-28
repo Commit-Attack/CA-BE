@@ -1,5 +1,6 @@
 package com.commitAttack.be.user.domain
 
+import com.commitAttack.libraries.BaseEntity
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Table
@@ -11,6 +12,7 @@ import org.hibernate.annotations.SQLDelete
 class User(
     name: String,
     profileImageUrl: String?,
+    initialCommitCount: Int,
 ) : BaseEntity() {
 
     @Column(name = "\"name\"", nullable = false)
@@ -19,5 +21,9 @@ class User(
 
     @Column(name = "\"profileImageUrl\"", nullable = true)
     var profileImageUrl: String? = profileImageUrl
+        protected set
+
+    @Column(name = "\"initialCommitCount\"", nullable = false)
+    var initialCommitCount: Int = initialCommitCount
         protected set
 }
