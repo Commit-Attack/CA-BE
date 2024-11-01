@@ -16,7 +16,7 @@ class User(
     initialCommitCount: Int? = 0,
 ) : BaseEntity() {
 
-    @Column(name = "\"githubId\"", nullable = false)
+    @Column(name = "\"githubId\"", nullable = false, unique = true)
     var githubId: String = githubId
         protected set
 

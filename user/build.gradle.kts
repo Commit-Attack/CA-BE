@@ -29,8 +29,8 @@ repositories {
 extra["springCloudVersion"] = "2023.0.2"
 
 dependencies {
-    implementation("com.commitAttack:web:0.0.1")
-    implementation("com.commitAttack:database:0.0.1")
+    implementation("com.commitAttack:web:0.0.5")
+    implementation("com.commitAttack:database:0.0.6")
 
     // Postgresql
     implementation("org.postgresql:postgresql")

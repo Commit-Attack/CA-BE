@@ -50,7 +50,7 @@ spring-doc:
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
 
-  swagger-servers:
-    urls:
-      - http://localhost:8080
-      - https://api.commitattack.app
+swagger-servers:
+  urls:
+    - http://localhost:8080
+    - https://api.commitattack.app
