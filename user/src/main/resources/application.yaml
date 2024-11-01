@@ -1,6 +1,9 @@
 server:
   port: 8080
 spring:
+  config:
+    import:
+      - 'optional:aws-parameterstore:/commit-attack/production/'
   datasource:
     url: jdbc:postgresql://localhost:5432/commitattack
     username: admin
@@ -54,3 +57,11 @@ swagger-servers:
   urls:
     - http://localhost:8080
     - https://api.commitattack.app
+
+github:
+  client-id: ${github.clientId}
+  client-secret: ${github.clientsecret}
+
+jwt:
+  common:
+    key: ${jwt.key}

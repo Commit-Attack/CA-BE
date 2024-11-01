@@ -34,9 +34,6 @@ dependencies {
 
     // Postgresql
     implementation("org.postgresql:postgresql")
-
-    // Validation
-    implementation("org.springframework.boot:spring-boot-starter-validation")
 }
 
 allOpen {

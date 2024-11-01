@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class UserService(
     private val userRepository: UserRepository,
-    @Value("\${jwt.secret}")
+    @Value("\${jwt.common.key}")
     private val jwtService: JwtService
 ) {
 

@@ -41,12 +41,14 @@ subprojects {
 	dependencyManagement {
 		imports {
 			mavenBom("org.springframework.cloud:spring-cloud-dependencies:2023.0.0")
-			mavenBom("io.awspring.cloud:spring-cloud-aws:3.1.0")
 		}
 	}
 
-	// Test Dependencies(Note: test does not allow api type dependencies)
 	dependencies {
+		implementation(platform("io.awspring.cloud:spring-cloud-aws-dependencies:3.1.0"))
+		implementation("io.awspring.cloud:spring-cloud-aws-starter")
+		implementation("io.awspring.cloud:spring-cloud-aws-starter-parameter-store")
+
 		testImplementation("org.springframework.boot:spring-boot-starter-test")
 		testImplementation("org.springframework.boot:spring-boot-testcontainers")
 		testImplementation("org.springframework.security:spring-security-test")
