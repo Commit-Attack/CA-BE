@@ -19,7 +19,7 @@ class UserController(
     private val userService: UserService
 ) : UserApi {
 
-    override fun signUp(request: CreateOrLoginUserRequestDto): ResponseEntity<ApiSuccessResponseDto<AccessTokenResponseDto>> {
+    override fun loginAndSignUp(request: CreateOrLoginUserRequestDto): ResponseEntity<ApiSuccessResponseDto<AccessTokenResponseDto>> {
         return ResponseUtil.successResponse("로그인 혹은 회원가입 성공", userService.loginAndSignUp(request))
     }
 
