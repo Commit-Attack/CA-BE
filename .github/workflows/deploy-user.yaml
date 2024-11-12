@@ -69,12 +69,9 @@ jobs:
 
       - name: Build and push Docker image to Amazon ECR
         run: |
-          docker build -t $ECR_REPOSITORY:latest .
+          docker build -t $ECR_REPOSITORY:latest -f ./user/Dockerfile .
           docker tag $ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-        with:
-          context: .
-          file: ./user/Dockerfile
 
       - name: Create Dockerrun.aws.json file using ECR image
         run: |
