@@ -72,6 +72,9 @@ jobs:
           docker build -t $ECR_REPOSITORY:latest .
           docker tag $ECR_REPOSITORY:latest $ECR_REGISTRY/$ECR_REPOSITORY:latest
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        with:
+          context: .
+          file: ./user/Dockerfile
 
       - name: Create Dockerrun.aws.json file using ECR image
         run: |
