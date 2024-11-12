@@ -55,7 +55,7 @@ spring-doc:
 
 swagger-servers:
   urls:
-    - http://localhost:8080
+    - http://commit-attack-application.ap-northeast-2.elasticbeanstalk.com
     - https://api.commitattack.app
 
 github:
