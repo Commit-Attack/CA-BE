@@ -7,8 +7,8 @@ import jakarta.persistence.Table
 import org.hibernate.annotations.SQLDelete
 
 @Entity
-@SQLDelete(sql = "UPDATE public.\"Users\" SET \"deletedAt\" = current_timestamp WHERE \"id\" = ?")
-@Table(name = "\"Users\"", schema = "public")
+@SQLDelete(sql = "UPDATE account.\"users\" SET \"deletedAt\" = current_timestamp WHERE \"id\" = ?")
+@Table(name = "\"users\"", schema = "account")
 class User(
     githubId: String,
     name: String,

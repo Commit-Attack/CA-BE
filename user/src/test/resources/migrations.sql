@@ -1,5 +1,6 @@
+create schema account;
 
-create table "Users"
+create table account."Users"
 (
     id                   varchar(36)  not null
         primary key,
