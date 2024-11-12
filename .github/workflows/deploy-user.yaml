@@ -104,4 +104,4 @@ jobs:
           AWS_REGION: ap-northeast-2
         run: |
           aws elasticbeanstalk create-application-version --application-name commit-attack-application --version-label ${{ github.sha }} --source-bundle S3Bucket=$AWS_S3_BUCKET,S3Key="dev/Dockerrun-${{ github.sha }}.aws.json"
-          aws elasticbeanstalk update-environment --application-name commit-attack-application --environment-name commit-attack-application-env --version-label ${{ github.sha }}
+          aws elasticbeanstalk update-environment --application-name commit-attack-application --environment-name commit-attack-application-enviroment --version-label ${{ github.sha }}
