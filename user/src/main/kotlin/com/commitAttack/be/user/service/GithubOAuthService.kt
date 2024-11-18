@@ -1,6 +1,5 @@
 package com.commitAttack.be.user.service
 
-import com.commitAttack.be.user.dto.response.GithubTokenResponseDto
 import com.commitAttack.be.user.dto.response.GithubUserResponseDto
 import com.commitAttack.be.user.external.GithubApiClient
 import com.commitAttack.be.user.external.GithubTokenApiClient
@@ -16,14 +15,6 @@ class GithubOAuthService(
     @Value("\${github.client-secret}")
     private val clientSecret: String,
 ) {
-    fun getAccessToken(code: String): GithubTokenResponseDto {
-        val response = githubTokenApiClient.getAccessToken(
-            clientId = clientId,
-            clientSecret = clientSecret,
-            code = code
-        )
-        return GithubTokenResponseDto(response.accessToken)
-    }
 
     fun getUser(accessToken: String): GithubUserResponseDto {
         val response =  githubApiClient.getUser("Bearer $accessToken")

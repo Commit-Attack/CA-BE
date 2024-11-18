@@ -1,6 +1,5 @@
 package com.commitAttack.be.user.api
 
-import com.commitAttack.be.user.dto.response.GithubTokenResponseDto
 import com.commitAttack.be.user.dto.response.GithubUserResponseDto
 import com.commitAttack.web.annotation.CAGetMapping
 import com.commitAttack.web.dto.ApiSuccessResponseDto
@@ -12,16 +11,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.RequestParam
 
 interface AuthApi {
-
-    @CAGetMapping("/auth/github/login")
-    @ApiResponse(responseCode = "200", description = "코드를 통해 깃허브 토큰 조회 성공")
-    @Operation(summary = "코드를 통해 깃허브 토큰 조회하는 api 입니다.")
-    @CustomFailResponseAnnotation(ErrorTitle.BadRequest)
-    @CustomFailResponseAnnotation(ErrorTitle.Forbidden)
-    @CustomFailResponseAnnotation(ErrorTitle.ExternalServerError)
-    fun getGithubAccessToken(
-        @RequestParam("code") code: String
-    ) : ResponseEntity<ApiSuccessResponseDto<GithubTokenResponseDto>>
 
     @CAGetMapping("/auth/github/users")
     @ApiResponse(responseCode = "200", description = "깃허브 유저 조회 성공")

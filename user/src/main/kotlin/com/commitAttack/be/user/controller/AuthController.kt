@@ -1,7 +1,6 @@
 package com.commitAttack.be.user.controller
 
 import com.commitAttack.be.user.api.AuthApi
-import com.commitAttack.be.user.dto.response.GithubTokenResponseDto
 import com.commitAttack.be.user.dto.response.GithubUserResponseDto
 import com.commitAttack.be.user.service.GithubOAuthService
 import com.commitAttack.web.dto.ApiSuccessResponseDto
@@ -16,12 +15,6 @@ import org.springframework.web.bind.annotation.RestController
 class AuthController(
     private val githubOAuthService: GithubOAuthService
 ) : AuthApi {
-
-    override fun getGithubAccessToken(
-        @RequestParam("code") code: String
-    ): ResponseEntity<ApiSuccessResponseDto<GithubTokenResponseDto>> {
-        return ResponseUtil.successResponse("깃허브 토큰 조회 성공", githubOAuthService.getAccessToken(code))
-    }
 
     override fun getGithubUser(
         @RequestParam("accessToken") accessToken: String
