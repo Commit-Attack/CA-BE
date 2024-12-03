@@ -59,8 +59,7 @@ swagger-servers:
     - https://api.commitattack.app
 
 github:
-  client-id: ${github.clientId}
-  client-secret: ${github.clientsecret}
+  token : ${github.token}
 
 jwt:
   common:
