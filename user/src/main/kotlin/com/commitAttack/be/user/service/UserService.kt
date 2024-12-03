@@ -5,6 +5,7 @@ import com.commitAttack.be.user.domain.UserRepository
 import com.commitAttack.be.user.dto.request.CreateOrLoginUserRequestDto
 import com.commitAttack.be.user.dto.response.AccessTokenResponseDto
 import com.commitAttack.be.user.dto.response.UserInfoResponseDto
+import com.commitAttack.be.user.external.GithubContributionApiClient
 import com.commitAttack.be.user.jwt.createJwt
 import com.commitAttack.web.exception.ApiException
 import com.commitAttack.web.exception.ErrorTitle
@@ -17,19 +18,38 @@ import org.springframework.transaction.annotation.Transactional
 class UserService(
     private val userRepository: UserRepository,
     @Value("\${jwt.common.key}")
-    private val jwtService: JwtService
+    private val jwtService: JwtService,
+    private val githubContributionApiClient: GithubContributionApiClient
 ) {
 
-    @Transactional
-    fun loginAndSignUp(request: CreateOrLoginUserRequestDto) : AccessTokenResponseDto{
-        val user = userRepository.findByGithubIdAndDeletedAtIsNull(request.githubId) ?: userRepository.save(
+    fun loginAndSignUp(request: CreateOrLoginUserRequestDto): AccessTokenResponseDto {
+        val existingUser = userRepository.findByNameAndDeletedAtIsNull(request.name)
+
+        if (existingUser != null) {
+            return createAccessToken(existingUser)
+        }
+
+        val userContributionYears = githubContributionApiClient.fetchAllContributionYearsWithToken(request.name)
+        val userContributionYearsCount = githubContributionApiClient.fetchContributionCountWithToken(request.name, userContributionYears)
+
+        val newUser = createAndSaveUser(request, userContributionYearsCount)
+        return createAccessToken(newUser)
+    }
+
+    private fun createAccessToken(user: User): AccessTokenResponseDto {
+        val token = jwtService.createJwt(user.id, user.githubId, user.profileImageUrl, user.name)
+        return AccessTokenResponseDto(token)
+    }
+
+    private fun createAndSaveUser(request: CreateOrLoginUserRequestDto, initialCommitCount: Int): User {
+        return userRepository.save(
             User(
                 githubId = request.githubId,
                 name = request.name,
                 profileImageUrl = request.profileImageUrl,
+                initialCommitCount = initialCommitCount
             )
         )
-        return AccessTokenResponseDto(jwtService.createJwt(user.id, user.githubId, user.profileImageUrl, user.name))
     }
 
     @Transactional(readOnly = true)
@@ -43,4 +63,5 @@ class UserService(
             profileImageUrl = findUser.profileImageUrl
         )
     }
+
 }
