@@ -23,5 +23,21 @@ spring:
         use_sql_comments: true
         default_batch_fetch_size: 1000
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    com:
+      commitAttack: DEBUG
+    org:
+      springframework: DEBUG
+      hibernate:
+        orm:
+          jdbc:
+            bind: trace
+
 jwt:
-  secret: "가나다라마바사아자차카파타하"
+  common:
+    key: "가나다라마바사아자차카파타하"
+
+github:
+  token: """

@@ -1,10 +1,10 @@
 create schema account;
 
-create table account."Users"
+create table account."users"
 (
     id                   varchar(36)  not null
         primary key,
-    "name"                 varchar(255) not null,
+    "name"                 varchar(255) not null unique,
     "profileImageUrl"    varchar(255),
     "initialCommitCount" integer,
     "githubId"           varchar(255) not null,

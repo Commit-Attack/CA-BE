@@ -20,7 +20,7 @@ class User(
     var githubId: String = githubId
         protected set
 
-    @Column(name = "\"name\"", nullable = false)
+    @Column(name = "\"name\"", nullable = false, unique = true)
     var name: String = name
         protected set
 
